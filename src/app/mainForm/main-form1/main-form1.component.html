@@ -1,0 +1,114 @@
+<div class="container p-3">
+    <mat-card class="p-4 ">
+      <form [formGroup]="mainForm" (ngSubmit)="mainSubmit()">
+        <div class="row g-3">
+          <!-- Company Name -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Company Name</mat-label>
+              <input matInput formControlName="companyName">
+              <mat-icon matSuffix>business</mat-icon>
+            </mat-form-field>
+          </div>
+  
+          <!-- Country -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Country</mat-label>
+              <mat-select formControlName="country">
+                <mat-option value="1">Option 1</mat-option>
+                <mat-option value="2">Option 2</mat-option>
+              </mat-select>
+              <mat-icon matSuffix>public</mat-icon>
+            </mat-form-field>
+          </div>
+  
+          <!-- Rating Agency -->
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Rating Agency</mat-label>
+              <mat-select (selectionChange)=" findSelection()" formControlName="ratingAgency">
+                <!-- seletion change de zy omn change fe el 3ady  -->
+                @for (agency of agencies; track $index) {
+
+                  <mat-option [value]="agencies[$index].name">
+                    {{agencies[$index].name}}
+                  </mat-option>
+
+                }
+                <!-- <mat-option value="2">Agency 2</mat-option> -->
+              </mat-select>
+              <mat-icon matSuffix>insights</mat-icon>
+            </mat-form-field>
+          </div>
+
+          @if (isOtherSelected()) {
+            <div class="col-md-6" @fadeInOut>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Enter Agency Name</mat-label>
+                <input matInput formControlName="other">
+                <mat-icon matSuffix>business</mat-icon>
+              </mat-form-field>
+            </div>
+          }
+  
+          <!-- Rating -->
+          @if (!isOtherSelected()) {
+            <div class="col-md-6" @fadeInOut>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Rating</mat-label>
+                <mat-select formControlName="rating">
+                  @for (rating of avaliableRatings; track $index) {
+                    <mat-option [value]="rating">{{ rating }}</mat-option>
+                  }
+                </mat-select>
+                <mat-icon matSuffix>bar_chart</mat-icon>
+              </mat-form-field>
+            </div>
+          }
+  
+          <!-- Notes on the Left -->
+         
+  
+          <!-- Listed Status + Conditional Input on the Right -->
+          <div class="col-md-6">
+            <div class="d-flex align-items-center gap-2">
+              <mat-icon color="primary">info</mat-icon>
+              <label class="fw-medium">Is That Company:</label>
+            </div>
+  
+            <mat-radio-group class="d-flex gap-4 mt-2" formControlName="listedStatus">
+              <mat-radio-button value="listed">Listed</mat-radio-button>
+              <mat-radio-button value="notListed">Not Listed</mat-radio-button>
+            </mat-radio-group>
+  
+            <!-- Show "Estate Authority Code" when "Listed" is selected -->
+
+            @if (isListed()) {
+
+                <div class="mt-3" @fadeInOut>
+                  <mat-form-field appearance="outline" class="w-100" >
+                    <mat-label>Estate Authority Code</mat-label>
+                    <input matInput formControlName="Estate">
+                    <mat-icon matSuffix>contacts</mat-icon>
+                  </mat-form-field>
+                </div>
+            }
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100 h-100">
+              <mat-label>Notes</mat-label>
+              <textarea style="resize: none;" matInput formControlName="notes" rows="4"></textarea>
+              <mat-icon matSuffix>comment</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <!-- Save Button -->
+        <button type="submit" mat-raised-button color="primary" class=" ms-auto d-block mt-3">
+          <mat-icon>save</mat-icon> Save
+        </button>
+      </form>
+    </mat-card>
+  </div>
+  
